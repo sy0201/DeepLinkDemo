@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+
+    <!-- ====================================================
+         유니버설 링크를 위한 Associated Domains 설정
+         
+         ✅ 이 설정의 의미:
+            "https://deeplinkdemo.com 의 링크를 이 앱이 처리하겠다"
+            
+         ✅ 동작 원리:
+            1. iOS가 앱 설치/업데이트 시 Apple CDN에서 AASA 파일 다운로드
+               → https://deeplinkdemo.com/.well-known/apple-app-site-association
+            2. AASA 파일에 이 앱의 Bundle ID가 있으면 연결 승인
+            3. 이후 https://deeplinkdemo.com/... 링크 클릭 시 앱으로 전달
+            
+         ⚠️  주의사항:
+            - Xcode > Signing & Capabilities > Associated Domains 에서도 추가 필요
+            - applinks: 접두사 필수 (webcredentials:, appclips: 등과 구분)
+            - 실제 도메인에 AASA 파일이 없으면 동작 안 함
+         ====================================================  -->
+    <key>com.apple.developer.associated-domains</key>
+    <array>
+        <!-- 
+            형식: applinks:{도메인}
+            
+            ✅ 기본 도메인
+        -->
+        <string>applinks:deeplinkdemo.com</string>
+
+        <!--
+            ✅ www 서브도메인도 처리하려면 따로 추가
+        -->
+        <string>applinks:www.deeplinkdemo.com</string>
+
+        <!--
+            ✅ 개발 환경 (로컬 서버 테스트용, 실제 배포 시 제거)
+            형식: applinks:{도메인}?mode=developer
+        -->
+        <!-- <string>applinks:localhost?mode=developer</string> -->
+    </array>
+
+</dict>
+</plist>

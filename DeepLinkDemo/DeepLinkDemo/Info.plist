@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+
+    <!-- ====================================================
+         커스텀 URL 스킴 등록
+         
+         이 설정이 있어야 deeplinkdemo:// 링크를 이 앱이 받을 수 있음
+         
+         테스트 방법 (터미널):
+           xcrun simctl openurl booted "deeplinkdemo://profile/42"
+         ====================================================  -->
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLName</key>
+            <!-- 고유 식별자 (보통 Bundle ID 사용) -->
+            <string>com.example.DeepLinkDemo</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <!-- ✅ 핵심: 여기에 등록한 스킴이 이 앱의 커스텀 URL 스킴 -->
+                <!-- deeplinkdemo:// 형태로 외부에서 앱을 열 수 있게 됨 -->
+                <string>deeplinkdemo</string>
+            </array>
+        </dict>
+    </array>
+
+    <!-- ====================================================
+         앱이 canOpenURL()로 확인할 수 있는 외부 앱 스킴 목록
+         
+         iOS 9+부터 여기에 등록하지 않으면 canOpenURL()이 항상 false 반환
+         (실제로 열리긴 하지만 존재 여부 확인 불가)
+         ====================================================  -->
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <!-- 카카오톡 설치 확인용 -->
+        <string>kakaotalk</string>
+        <!-- 카카오링크 -->
+        <string>kakaolink</string>
+    </array>
+
+    <!-- ====================================================
+         App Transport Security
+         
+         개발 중에는 HTTP 허용 가능하나 배포 시 제거 권장
+         ====================================================  -->
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSExceptionDomains</key>
+        <dict>
+            <key>deeplinkdemo.com</key>
+            <dict>
+                <!-- HTTPS만 허용 (유니버설 링크 도메인) -->
+                <key>NSExceptionAllowsInsecureHTTPLoads</key>
+                <false/>
+            </dict>
+        </dict>
+    </dict>
+
+    <!-- Scene 기반 앱 구성 (iOS 13+) -->
+    <key>UIApplicationSceneManifest</key>
+    <dict>
+        <key>UIApplicationSupportsMultipleScenes</key>
+        <false/>
+        <key>UISceneConfigurations</key>
+        <dict>
+            <key>UIWindowSceneSessionRoleApplication</key>
+            <array>
+                <dict>
+                    <key>UISceneConfigurationName</key>
+                    <string>Default Configuration</string>
+                    <key>UISceneDelegateClassName</key>
+                    <string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
+                </dict>
+            </array>
+        </dict>
+    </dict>
+
+    <key>CFBundleIdentifier</key>
+    <string>com.example.DeepLinkDemo</string>
+
+    <key>CFBundleVersion</key>
+    <string>1</string>
+
+    <key>CFBundleShortVersionString</key>
+    <string>1.0</string>
+
+</dict>
+</plist>
